@@ -1,4 +1,4 @@
-package io.github.mshivaeifar.driverservice.unit.domain.model.valueobject;
+package io.github.mshivaeifar.driverservice.unit.domain.valueobject;
 
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 import org.junit.jupiter.api.Test;
