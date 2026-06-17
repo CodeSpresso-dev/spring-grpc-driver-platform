@@ -1,4 +1,4 @@
-package io.github.mshivaeifar.driverservice.application.dto;
+package io.github.mshivaeifar.driverservice.domain.model;
 
 import java.util.UUID;
 
