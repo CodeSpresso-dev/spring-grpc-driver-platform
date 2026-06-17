@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: driver-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/driverdb
+    username: driver
+    password: driver
+
+  flyway:
+    enabled: true
+
+grpc:
+  client:
+      host: localhost
+      port: 12242

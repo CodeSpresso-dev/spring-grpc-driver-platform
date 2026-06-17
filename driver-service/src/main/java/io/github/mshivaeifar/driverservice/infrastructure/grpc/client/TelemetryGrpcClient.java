@@ -3,34 +3,21 @@ package io.github.mshivaeifar.driverservice.infrastructure.grpc.client;
 import io.github.mshivaeifar.driverservice.application.dto.DriverLocation;
 import io.github.mshivaeifar.driverservice.application.dto.FetchByUUIDRequest;
 import io.github.mshivaeifar.driverservice.application.port.out.TelemetryClient;
+import io.github.mshivaeifar.driverservice.infrastructure.grpc.mapper.TelemetryGrpcClientMapper;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationRequest;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationResponse;
 import io.github.mshivaeifar.telemetryservice.grpc.TelemetryServiceGrpc;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
+@AllArgsConstructor
 public class TelemetryGrpcClient implements TelemetryClient {
 
     private final TelemetryServiceGrpc.TelemetryServiceBlockingStub stub;
-
-    public TelemetryGrpcClient() {
-
-        ManagedChannel channel =
-                ManagedChannelBuilder
-                        .forAddress("localhost", 9090)
-                        .usePlaintext()
-                        .build();
-
-        this.stub =
-                TelemetryServiceGrpc
-                        .newBlockingStub(channel);
-    }
-
+    private final TelemetryGrpcClientMapper mapper;
 
     @Override
     public DriverLocation getCurrentLocation(FetchByUUIDRequest driverId) {
@@ -41,13 +28,10 @@ public class TelemetryGrpcClient implements TelemetryClient {
                         .build();
 
         GetDriverLocationResponse response =
-                stub.getDriverLocation(request);
+                stub
+                        .withDeadlineAfter(2, TimeUnit.SECONDS)
+                        .getDriverLocation(request);
 
-        return new DriverLocation(
-                UUID.fromString(response.getDriverId()),
-                response.getLatitude(),
-                response.getLongitude(),
-                Instant.parse(response.getTimestamp())
-        );
+        return mapper.toDomain(response);
     }
 }
