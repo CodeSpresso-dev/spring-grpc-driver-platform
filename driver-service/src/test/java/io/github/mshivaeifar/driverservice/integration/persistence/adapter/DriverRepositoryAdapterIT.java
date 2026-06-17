@@ -48,6 +48,7 @@ public class DriverRepositoryAdapterIT extends AbstractPostgresIT {
 //                .usingRecursiveComparison()
 //                .isEqualTo(savedDriver);
     }
+
     @Test
     void given_valid_driver_when_fetched_by_phone_number_should_find_it_successfully() {
 

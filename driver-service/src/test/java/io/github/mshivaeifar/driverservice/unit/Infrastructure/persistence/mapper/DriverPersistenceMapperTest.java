@@ -29,7 +29,7 @@ public class DriverPersistenceMapperTest {
                 DriverPersistenceMapper.toEntity(driver);
 
         assertThat(
-                driver.getId())
+                driver.getId().value())
                 .isEqualTo(entity.getId());
 
         assertThat(
