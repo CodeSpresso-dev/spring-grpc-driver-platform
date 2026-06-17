@@ -1,7 +1,7 @@
 package io.github.mshivaeifar.driverservice.application.mapper;
 
 import io.github.mshivaeifar.driverservice.application.dto.DriverResponse;
-import io.github.mshivaeifar.driverservice.application.dto.RegisterDriverRequest;
+import io.github.mshivaeifar.driverservice.application.dto.RegisterDriverCommand;
 import io.github.mshivaeifar.driverservice.domain.model.Driver;
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 
@@ -21,7 +21,7 @@ public final class DriverMapper {
         );
     }
 
-    public static Driver toDomain(RegisterDriverRequest request) {
+    public static Driver toDomain(RegisterDriverCommand request) {
         PhoneNumber phoneNumber = PhoneNumber.of(request.phoneNumber());
         return Driver.create(
                 request.firstName()
