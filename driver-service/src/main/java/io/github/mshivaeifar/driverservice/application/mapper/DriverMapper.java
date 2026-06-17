@@ -12,7 +12,7 @@ public final class DriverMapper {
 
     public static DriverResponse toResponse(Driver driver) {
         return new DriverResponse(
-                driver.getId(),
+                driver.getId().value(),
                 driver.getFirstName(),
                 driver.getLastName(),
                 driver.getPhoneNumber().value(),
