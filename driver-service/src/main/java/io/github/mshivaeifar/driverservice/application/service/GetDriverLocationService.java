@@ -1,7 +1,7 @@
 package io.github.mshivaeifar.driverservice.application.service;
 
 import io.github.mshivaeifar.driverservice.application.dto.DriverLocationResponse;
-import io.github.mshivaeifar.driverservice.application.helper.DriverValidator;
+import io.github.mshivaeifar.driverservice.application.helper.DriverFinder;
 import io.github.mshivaeifar.driverservice.application.mapper.DriverLocationMapper;
 import io.github.mshivaeifar.driverservice.application.port.in.GetDriverLocationUseCase;
 import io.github.mshivaeifar.driverservice.application.port.out.DriverLocationProvider;
@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 class GetDriverLocationService implements GetDriverLocationUseCase {
 
-    private final DriverValidator driverValidator;
+    private final DriverFinder driverFinder;
     private final DriverLocationProvider driverLocationProvider;
 
     @Override
     public DriverLocationResponse fetchLocation(DriverId driverId) {
-        driverValidator.ensureExists(driverId.value());
+        driverFinder.ensureExists(driverId);
         DriverLocation currentLocation = driverLocationProvider.getCurrentLocation(driverId.value());
         return DriverLocationMapper.toResponse(currentLocation);
     }
