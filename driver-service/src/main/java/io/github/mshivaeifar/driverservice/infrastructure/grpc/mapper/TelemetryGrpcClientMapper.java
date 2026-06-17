@@ -1,6 +1,6 @@
 package io.github.mshivaeifar.driverservice.infrastructure.grpc.mapper;
 
-import io.github.mshivaeifar.driverservice.application.dto.DriverLocation;
+import io.github.mshivaeifar.driverservice.domain.model.DriverLocation;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationResponse;
 import org.springframework.stereotype.Component;
 
