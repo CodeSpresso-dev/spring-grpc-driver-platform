@@ -2,24 +2,22 @@ package io.github.mshivaeifar.driverservice.infrastructure.persistence.adapter;
 
 import io.github.mshivaeifar.driverservice.application.port.out.DriverRepository;
 import io.github.mshivaeifar.driverservice.domain.model.Driver;
+import io.github.mshivaeifar.driverservice.domain.valueobject.DriverId;
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 import io.github.mshivaeifar.driverservice.infrastructure.persistence.entity.DriverEntity;
 import io.github.mshivaeifar.driverservice.infrastructure.persistence.mapper.DriverPersistenceMapper;
 import io.github.mshivaeifar.driverservice.infrastructure.persistence.repository.SpringDataDriverRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
+@AllArgsConstructor
 public class DriverRepositoryAdapter implements DriverRepository {
 
     private final SpringDataDriverRepository driverRepository;
-
-    public DriverRepositoryAdapter(SpringDataDriverRepository driverRepository) {
-        this.driverRepository = driverRepository;
-    }
 
     @Override
     public Driver save(Driver driver) {
@@ -31,8 +29,8 @@ public class DriverRepositoryAdapter implements DriverRepository {
     }
 
     @Override
-    public Optional<Driver> findById(UUID id) {
-        return driverRepository.findById(id).map(DriverPersistenceMapper::toDomain);
+    public Optional<Driver> findById(DriverId id) {
+        return driverRepository.findById(id.value()).map(DriverPersistenceMapper::toDomain);
     }
 
     @Override
