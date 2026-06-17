@@ -2,6 +2,7 @@ package io.github.mshivaeifar.driverservice.integration.persistence.adapter;
 
 import io.github.mshivaeifar.driverservice.domain.model.Driver;
 import io.github.mshivaeifar.driverservice.domain.model.DriverStatus;
+import io.github.mshivaeifar.driverservice.domain.valueobject.DriverId;
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 
 import java.time.Instant;
@@ -49,7 +50,7 @@ public class DriverBuilder {
 
     public Driver build() {
         return Driver.restore(
-                id,
+                DriverId.of(id),
                 firstName,
                 lastName,
                 phoneNumber,

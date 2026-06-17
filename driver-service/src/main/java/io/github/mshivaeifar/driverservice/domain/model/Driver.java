@@ -1,6 +1,7 @@
 package io.github.mshivaeifar.driverservice.domain.model;
 
 import io.github.mshivaeifar.driverservice.domain.exception.InvalidDriverStateException;
+import io.github.mshivaeifar.driverservice.domain.valueobject.DriverId;
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 
 import java.time.Instant;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public class Driver {
 
-    private final UUID id;
+    private final DriverId id;
     private final Instant createdAt;
 
     private String firstName;
@@ -17,14 +18,14 @@ public class Driver {
     private PhoneNumber phoneNumber;
     private DriverStatus status;
 
-    private Driver(UUID id,
+    private Driver(DriverId id,
                    String firstName,
                    String lastName,
                    PhoneNumber phoneNumber,
                    DriverStatus status,
                    Instant createdAt) {
 
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.createdAt = Objects.requireNonNull(createdAt);
 
         this.firstName = validateName(firstName);
@@ -39,7 +40,7 @@ public class Driver {
                                 PhoneNumber phoneNumber) {
 
         return new Driver(
-                UUID.randomUUID(),
+                DriverId.of(UUID.randomUUID()),
                 firstName,
                 lastName,
                 phoneNumber,
@@ -48,7 +49,7 @@ public class Driver {
         );
     }
     public static Driver restore(
-            UUID id,
+            DriverId id,
             String firstName,
             String lastName,
             PhoneNumber phoneNumber,
@@ -90,7 +91,7 @@ public class Driver {
     }
 
     // getters only (no setters for id/createdAt)
-    public UUID getId() {
+    public DriverId getId() {
         return id;
     }
 

@@ -1,6 +1,7 @@
 package io.github.mshivaeifar.driverservice.infrastructure.persistence.mapper;
 
 import io.github.mshivaeifar.driverservice.domain.model.Driver;
+import io.github.mshivaeifar.driverservice.domain.valueobject.DriverId;
 import io.github.mshivaeifar.driverservice.domain.valueobject.PhoneNumber;
 import io.github.mshivaeifar.driverservice.infrastructure.persistence.entity.DriverEntity;
 
@@ -10,7 +11,7 @@ public class DriverPersistenceMapper {
         return DriverEntity.builder()
                 .createdAt(driver.getCreatedAt())
                 .phoneNumber(driver.getPhoneNumber().value())
-                .id(driver.getId())
+                .id(driver.getId().value())
                 .lastName(driver.getLastName())
                 .firstName(driver.getFirstName())
                 .status(driver.getStatus())
@@ -19,7 +20,7 @@ public class DriverPersistenceMapper {
 
     public static Driver toDomain(DriverEntity entity) {
         return Driver.restore(
-                entity.getId(),
+                DriverId.of(entity.getId()),
                 entity.getFirstName(),
                 entity.getLastName(),
                 PhoneNumber.of(entity.getPhoneNumber()),
