@@ -37,7 +37,15 @@ public class DriverController {
                 .body(DriverRestMapper.toResponse(driverResponse));
     }
 
-
+    @GetMapping("/{id}/location")
+    public ResponseEntity<DriverLocationResponseBody> getLocation(
+            @PathVariable UUID id
+    ) {
+        DriverLocationResponse driverLocationResponse = locationUseCase.fetchLocation(getDriverId(id));
+        return ResponseEntity.ok(
+                DriverLocationRestMapper.toResponse(driverLocationResponse)
+        );
+    }
 
     private URI buildURI(String id) {
         return ServletUriComponentsBuilder
