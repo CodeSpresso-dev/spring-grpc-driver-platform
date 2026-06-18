@@ -75,7 +75,7 @@ public class TelemetryGrpcDriverLocationProviderTest {
     }
 
     @Test
-    public void given_invalid_driver_id_when_invoke_fallback_should_return_default_location() {
+    public void given_grpc_failure_when_fallback_invoked_then_return_default_location() {
         //Given
         UUID driverId = UUID.randomUUID();
 
@@ -86,7 +86,7 @@ public class TelemetryGrpcDriverLocationProviderTest {
 
         //Then
         then(result).isNotNull();
-        then(driverId).isEqualTo(result.driverId());
+        then(result.driverId()).isEqualTo(driverId);
         then(result.latitude()).isEqualTo(0.0);
     }
 }
