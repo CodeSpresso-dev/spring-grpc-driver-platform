@@ -62,4 +62,42 @@ public class DriverControllerIT extends AbstractPostgresIT {
                 .isEqualTo(registerDriverRequestBody.phoneNumber());
     }
 
+    @Test
+    void given_already_existed_driver_when_fetched_current_location_invoked_should_return_location_successfully() {
+        //Given
+        RegisterDriverRequestBody registerDriverRequestBody =
+                new RegisterDriverRequestBuilder().buildValidRequest();
+
+        EntityExchangeResult<DriverResponseBody> regResult = webTestClient.post()
+                .uri("/api/v1/drivers")
+                .bodyValue(registerDriverRequestBody)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(DriverResponseBody.class)
+                .returnResult();
+        DriverResponseBody created = regResult.getResponseBody();
+
+        assertThat(created).isNotNull();
+
+        UUID driverId = created.id();
+
+        System.out.printf("/api/v1/drivers/%s/location%n", driverId);
+
+        //When
+        EntityExchangeResult<DriverLocationResponseBody> result = webTestClient.get()
+                .uri("/api/v1/drivers/{driverId}/location", driverId)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(DriverLocationResponseBody.class)
+                .returnResult();
+        DriverLocationResponseBody response = result.getResponseBody();
+
+        //Then
+        assertThat(response).isNotNull();
+        assertThat(response.driverId()).isNotNull();
+        assertThat(response.timestamp()).isBefore(Instant.now());
+    }
+
 }
