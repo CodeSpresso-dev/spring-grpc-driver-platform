@@ -6,9 +6,12 @@ import io.github.mshivaeifar.driverservice.infrastructure.grpc.mapper.TelemetryG
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationRequest;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationResponse;
 import io.github.mshivaeifar.telemetryservice.grpc.TelemetryServiceGrpc;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +23,8 @@ public class TelemetryGrpcDriverLocationProvider implements DriverLocationProvid
     private final TelemetryGrpcClientMapper mapper;
 
     @Override
+    @CircuitBreaker(name = "telemetryGrpc", fallbackMethod = "telemetryGrpcFallback")
+    @Retry(name = "telemetryGrpc")
     public DriverLocation getCurrentLocation(UUID driverId) {
         GetDriverLocationRequest request =
                 GetDriverLocationRequest
@@ -33,5 +38,15 @@ public class TelemetryGrpcDriverLocationProvider implements DriverLocationProvid
                         .getDriverLocation(request);
 
         return mapper.toDomain(response);
+    }
+
+    public DriverLocation telemetryGrpcFallback(UUID driverId, Throwable ex) {
+
+        return new DriverLocation(
+                driverId,
+                0.0,
+                0.0,
+                Instant.now()
+        );
     }
 }
