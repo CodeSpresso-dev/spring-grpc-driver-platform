@@ -39,7 +39,7 @@ public class DriverController {
 
     @GetMapping("/{id}/location")
     public ResponseEntity<DriverLocationResponseBody> getLocation(
-            @PathVariable UUID id
+            @PathVariable("id") UUID id
     ) {
         DriverLocationResponse driverLocationResponse = locationUseCase.fetchLocation(getDriverId(id));
         return ResponseEntity.ok(
