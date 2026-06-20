@@ -1,7 +1,7 @@
 package io.github.mshivaeifar.telemetryservice.presentation.grpc.server;
 
-import io.github.mshivaeifar.telemetryservice.application.service.TelemetryQueryService;
-import io.github.mshivaeifar.telemetryservice.domain.model.DriverLocation;
+import io.github.mshivaeifar.telemetryservice.application.dto.DriverLocationResponse;
+import io.github.mshivaeifar.telemetryservice.application.port.in.GetDriverCurrentLocationUseCase;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationRequest;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationResponse;
 import io.github.mshivaeifar.telemetryservice.grpc.TelemetryServiceGrpc;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @GrpcService
 @RequiredArgsConstructor
 public class TelemetryGrpcServer extends TelemetryServiceGrpc.TelemetryServiceImplBase {
-    private final TelemetryQueryService service;
+    private final GetDriverCurrentLocationUseCase locationService;
     private final TelemetryGrpcMapper mapper;
 
     @Override
@@ -26,11 +26,10 @@ public class TelemetryGrpcServer extends TelemetryServiceGrpc.TelemetryServiceIm
 
         UUID driverId = UUID.fromString(request.getDriverId());
 
-        DriverLocation location =
-                service.getCurrentLocation(driverId);
+        DriverLocationResponse driverLocationResponse = locationService.handle(driverId);
 
         GetDriverLocationResponse response =
-                mapper.toResponse(location);
+                mapper.toResponse(driverLocationResponse);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
