@@ -1,6 +1,6 @@
 package io.github.mshivaeifar.telemetryservice.presentation.grpc.mapper;
 
-import io.github.mshivaeifar.telemetryservice.domain.model.DriverLocation;
+import io.github.mshivaeifar.telemetryservice.application.dto.DriverLocationResponse;
 import io.github.mshivaeifar.telemetryservice.grpc.GetDriverLocationResponse;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class TelemetryGrpcMapper {
 
     public GetDriverLocationResponse toResponse(
-            DriverLocation location
+            DriverLocationResponse location
     ) {
 
         return GetDriverLocationResponse
