@@ -19,3 +19,18 @@ grpc:
   client:
       host: localhost
       port: 12242
+
+resilience4j:
+
+  circuitbreaker:
+    instances:
+      telemetryGrpc:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        slidingWindowSize: 10
+
+  retry:
+    instances:
+      telemetryGrpc:
+        maxAttempts: 3
+        waitDuration: 500ms
