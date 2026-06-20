@@ -25,6 +25,9 @@
         <tag/>
         <url/>
     </scm>
+    <properties>
+        <docker.image.prefix>fleet-platform</docker.image.prefix>
+    </properties>
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
@@ -58,6 +61,16 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <to>
+                        <image>${docker.image.prefix}/${project.artifactId}:1.0</image>
+                    </to>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
