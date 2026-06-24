@@ -151,3 +151,25 @@ The following architectural decisions are documented:
 ## Key Takeaway
 
 It is an exploration of how architectural decisions shape the long-term maintainability and evolution of backend systems.
+
+## Benchmark Results
+
+A simple performance comparison was conducted between REST and gRPC communication under identical load conditions.
+
+### Observations
+
+- gRPC showed lower average latency
+- gRPC reduced payload size due to Protobuf serialization
+- gRPC handled concurrent load more efficiently
+
+### Key Insight
+
+Performance differences were not the primary motivation for adopting gRPC.
+
+The main driver was:
+
+- Strongly typed contracts
+- Explicit service boundaries
+- Generated client communication
+
+Performance improvements were a secondary benefit.
